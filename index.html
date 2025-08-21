@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- สำคัญ -->
   <title>ปุ่มหนี + เพลงไทย + แชทส่วนตัว</title>
   <style>
     body { 
@@ -17,6 +18,7 @@
       color: #ff4da6;
       text-shadow: 2px 2px 5px rgba(255, 100, 200, 0.4);
       margin-top: 20px;
+      font-size: 24px;
     }
     #btn {
       padding: 20px 40px;
@@ -36,47 +38,41 @@
       transform: scale(1.1);
       box-shadow: 0 12px 25px rgba(255, 100, 200, 0.8);
     }
-    #giveup {
+    #giveup, #listen {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      padding: 15px 30px;
-      font-size: 18px;
+      bottom: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
       border: none;
       border-radius: 30px;
-      background: #ff3385;
       color: #fff;
-      box-shadow: 0 6px 15px rgba(255, 0, 128, 0.5);
       cursor: pointer;
     }
+    #giveup {
+      right: 20px;
+      background: #ff3385;
+      box-shadow: 0 6px 15px rgba(255, 0, 128, 0.5);
+    }
     #listen {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
+      left: 20px;
       background: #66ccff;
-      color: #fff;
       box-shadow: 0 6px 15px rgba(0, 100, 200, 0.5);
-      cursor: pointer;
     }
     #listen:hover {
       background: #3399ff;
     }
     #message {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: bold;
       color: #ff0066;
-      margin-top: 20px;
+      margin-top: 10px;
       text-shadow: 2px 2px 10px rgba(255, 0, 128, 0.4);
     }
     #counter {
       position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 20px;
+      top: 10px;
+      left: 10px;
+      font-size: 16px;
       color: #333;
     }
     iframe {
@@ -90,10 +86,10 @@
     /* กล่องแชท */
     #chatbox {
       position: fixed;
-      bottom: 100px;
-      right: 20px;
-      width: 300px;
-      height: 400px;
+      bottom: 80px;
+      right: 10px;
+      width: 280px;
+      height: 350px;
       background: #fff;
       border-radius: 15px;
       box-shadow: 0 6px 15px rgba(0,0,0,0.2);
@@ -103,15 +99,15 @@
     }
     #chat-messages {
       flex: 1;
-      padding: 10px;
+      padding: 8px;
       overflow-y: auto;
       font-size: 14px;
       text-align: left;
     }
     .msg {
       background: #ffe6f2;
-      padding: 8px 12px;
-      margin: 5px 0;
+      padding: 6px 10px;
+      margin: 4px 0;
       border-radius: 10px;
       max-width: 80%;
     }
@@ -121,12 +117,12 @@
     }
     #chat-input input {
       flex: 1;
-      padding: 10px;
+      padding: 8px;
       border: none;
       outline: none;
     }
     #chat-input button {
-      padding: 10px 15px;
+      padding: 8px 12px;
       border: none;
       background: #ff66b2;
       color: white;
@@ -134,6 +130,30 @@
     }
     #chat-input button:hover {
       background: #ff3385;
+    }
+
+    /* 📱 มือถือ */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 18px;
+      }
+      #btn {
+        padding: 15px 25px;
+        font-size: 16px;
+      }
+      #chatbox {
+        width: 90%;
+        height: 250px;
+        right: 5%;
+        bottom: 100px;
+      }
+      #giveup, #listen {
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+      #counter {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -146,10 +166,8 @@
   <div id="message"></div>
   <div id="counter">กดไม่โดน: 0 ครั้ง</div>
 
-  <!-- YouTube เพลงไทย -->
   <iframe id="musicPlayer" frameborder="0" allow="autoplay"></iframe>
 
-  <!-- กล่องแชท -->
   <div id="chatbox">
     <div id="chat-messages"></div>
     <div id="chat-input">
@@ -199,12 +217,10 @@
     });
 
     listenBtn.addEventListener("click", () => {
-      // เพลง YouTube (กดแล้วเล่นพร้อมเสียง)
       musicPlayer.src = "https://www.youtube.com/embed/qngCJf9V6g8?autoplay=1&loop=1&playlist=qngCJf9V6g8";
       alert("เปิดเพลงแก้เครียดแล้วนะ 🎶");
     });
 
-    // ระบบแชท
     const chatMessages = document.getElementById("chat-messages");
     const msgText = document.getElementById("msgText");
     const sendBtn = document.getElementById("sendBtn");
