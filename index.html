@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ปุ่มหนี + เพลงไทย + แชทส่วนตัว</title>
+  <style>
+    body { 
+      text-align: center; 
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff0f5, #ffe6e6);
+      font-family: "Segoe UI", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      color: #ff4da6;
+      text-shadow: 2px 2px 5px rgba(255, 100, 200, 0.4);
+      margin-top: 20px;
+    }
+    #btn {
+      padding: 20px 40px;
+      font-size: 20px;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: none;
+      border-radius: 50px;
+      background: #ff66b2;
+      color: white;
+      box-shadow: 0 8px 20px rgba(255, 100, 200, 0.6);
+      transition: left 0.3s ease, top 0.3s ease, box-shadow 0.2s;
+    }
+    #btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 25px rgba(255, 100, 200, 0.8);
+    }
+    #giveup {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      background: #ff3385;
+      color: #fff;
+      box-shadow: 0 6px 15px rgba(255, 0, 128, 0.5);
+      cursor: pointer;
+    }
+    #listen {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      background: #66ccff;
+      color: #fff;
+      box-shadow: 0 6px 15px rgba(0, 100, 200, 0.5);
+      cursor: pointer;
+    }
+    #listen:hover {
+      background: #3399ff;
+    }
+    #message {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ff0066;
+      margin-top: 20px;
+      text-shadow: 2px 2px 10px rgba(255, 0, 128, 0.4);
+    }
+    #counter {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+    iframe {
+      position: fixed;
+      top: -200px;
+      left: -200px;
+      width: 0;
+      height: 0;
+    }
+
+    /* กล่องแชท */
+    #chatbox {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+      text-align: left;
+    }
+    .msg {
+      background: #ffe6f2;
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    #chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    #chat-input button {
+      padding: 10px 15px;
+      border: none;
+      background: #ff66b2;
+      color: white;
+      cursor: pointer;
+    }
+    #chat-input button:hover {
+      background: #ff3385;
+    }
+  </style>
+</head>
+<body>
+  <h1>กดปุ่มนี้สิ 😏</h1>
+  <button id="btn">คลิกเลย!</button>
+  <button id="giveup">กดยอมแพ้</button>
+  <button id="listen">ฟังแก้เครียด 🎵</button>
+
+  <div id="message"></div>
+  <div id="counter">กดไม่โดน: 0 ครั้ง</div>
+
+  <!-- YouTube เพลงไทย -->
+  <iframe id="musicPlayer" frameborder="0" allow="autoplay"></iframe>
+
+  <!-- กล่องแชท -->
+  <div id="chatbox">
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+      <input type="text" id="msgText" placeholder="พิมพ์ข้อความ...">
+      <button id="sendBtn">ส่ง</button>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const giveupBtn = document.getElementById("giveup");
+    const listenBtn = document.getElementById("listen");
+    const message = document.getElementById("message");
+    const counter = document.getElementById("counter");
+    const musicPlayer = document.getElementById("musicPlayer");
+
+    let missCount = 0;
+
+    btn.addEventListener("mouseover", () => {
+      const chatbox = document.getElementById("chatbox");
+      const chatboxRect = chatbox.getBoundingClientRect();
+
+      let x, y;
+      do {
+        x = Math.random() * (window.innerWidth - btn.offsetWidth);
+        y = Math.random() * (window.innerHeight - btn.offsetHeight);
+      } while (
+        x + btn.offsetWidth > chatboxRect.left &&
+        x < chatboxRect.right &&
+        y + btn.offsetHeight > chatboxRect.top &&
+        y < chatboxRect.bottom
+      );
+
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+
+      missCount++;
+      counter.textContent = "กดไม่โดน: " + missCount + " ครั้ง";
+    });
+
+    giveupBtn.addEventListener("click", () => {
+      message.textContent = "ยอมแพ้แล้วหรอเพื่อน 😏";
+    });
+
+    btn.addEventListener("click", () => {
+      alert("สุดท้ายก็กดได้เนอะ 🤣");
+    });
+
+    listenBtn.addEventListener("click", () => {
+      // เพลง YouTube (กดแล้วเล่นพร้อมเสียง)
+      musicPlayer.src = "https://www.youtube.com/embed/qngCJf9V6g8?autoplay=1&loop=1&playlist=qngCJf9V6g8";
+      alert("เปิดเพลงแก้เครียดแล้วนะ 🎶");
+    });
+
+    // ระบบแชท
+    const chatMessages = document.getElementById("chat-messages");
+    const msgText = document.getElementById("msgText");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function addMessage(text) {
+      if (text.trim() === "") return;
+      const msg = document.createElement("div");
+      msg.className = "msg";
+      msg.textContent = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", () => {
+      addMessage(msgText.value);
+      msgText.value = "";
+    });
+
+    msgText.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        addMessage(msgText.value);
+        msgText.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
